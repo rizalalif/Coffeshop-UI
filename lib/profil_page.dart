@@ -8,8 +8,9 @@ class MyProfil extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Profile',style: GoogleFonts.montserrat(color: Colors.brown,fontWeight:FontWeight.bold,fontSize: 20 ),),
-        backgroundColor: Colors.white10,
+        automaticallyImplyLeading: false,
+        title: Text('My Profile',style: GoogleFonts.montserrat(color: Colors.white,fontSize: 20 ),),
+        backgroundColor: Colors.brown,
         elevation: 0,
         centerTitle: true,
         titleTextStyle: TextStyle(fontSize: 30),
@@ -23,7 +24,7 @@ class MyProfil extends StatelessWidget {
               width: 270,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                  color: Colors.amber,
+                  color: Colors.black,
                   borderRadius: BorderRadius.circular(150)),
               child: Image.asset(
                 'assets/images/me.JPG',

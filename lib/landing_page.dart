@@ -1,9 +1,13 @@
 import 'package:coffeshop/profil_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'nyar/login_user.dart';
+
 class Profil extends StatelessWidget {
-  const Profil({
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  Profil({
     super.key,
   });
 
@@ -46,10 +50,23 @@ class Profil extends StatelessWidget {
                   )
                 ],
               ),
-              Icon(
-                Icons.notifications_outlined,
-                color: Colors.black,
-                size: 30,
+              InkWell(
+                radius: 50,
+                borderRadius: BorderRadius.circular(50),
+                overlayColor: MaterialStatePropertyAll(Colors.grey[200]),
+                onTap: () {
+                  _auth.signOut();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login(),
+                      ));
+                },
+                child: Icon(
+                  Icons.keyboard_arrow_left,
+                  color: Colors.black,
+                  size: 30,
+                ),
               )
             ],
           ),

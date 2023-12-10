@@ -1,12 +1,17 @@
-import 'package:coffeshop/home_page.dart';
+import 'package:coffeshop/nyar/login_user.dart';
+import 'package:coffeshop/screen/home_page.dart';
+import 'package:coffeshop/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../model/model.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // final dataProvider = Provider.of<CoffeeList>(context, listen: false);
     return Scaffold(
       body: Center(
         child: Stack(
@@ -66,12 +71,15 @@ class LoginPage extends StatelessWidget {
                           splashColor: Colors.transparent,
                           hoverColor: Colors.black,
                           onTap: () {
+                            
+                            // dataProvider.connectAPI();
                             // Tindakan yang ingin Anda lakukan saat card diklik
 
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(),
+                                  // builder: (context) => MainScreen(),
+                                  builder: (context) => Login(),
                                 ));
                           },
                           child: Card(
@@ -103,17 +111,32 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                       // Padding(padding: EdgeInsets.all(8.0)),
-                      Text(
-                        'Terhubungnya kita akan memunculkan banyak inspirasimu!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.montserrat(
-                            color: Colors.white,
-                            fontSize: 13,
-                            fontStyle: FontStyle.italic),
-                      ),
+                      // Consumer<CoffeeList>(builder: (context, value, child) {
+                      //   if (value.data["name"] == null) {
+                      //     return Text(
+                      //       'Terhubungnya kita akan memunculkan banyak inspirasimu!',
+                      //       textAlign: TextAlign.center,
+                      //       style: GoogleFonts.montserrat(
+                      //         color: Colors.white,
+                      //         fontSize: 13,
+                      //         fontStyle: FontStyle.italic,
+                      //       ),
+                      //     );
+                      //   } else {
+                      //     return Text(
+                      //       value.data["name"],
+                      //       textAlign: TextAlign.center,
+                      //       style: GoogleFonts.montserrat(
+                      //         color: Colors.white,
+                      //         fontSize: 13,
+                      //         fontStyle: FontStyle.italic,
+                      //       ),
+                      //     );
+                      //   }
+                      // }),
                     ],
                   ),
-                ))
+                )),
           ],
         ),
       ),

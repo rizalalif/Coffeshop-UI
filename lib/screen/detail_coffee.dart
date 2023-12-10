@@ -1,19 +1,31 @@
+// import 'dart:html';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffeshop/controllers/fav_provider.dart';
 import 'package:coffeshop/model/model.dart';
+import 'package:coffeshop/service/data_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class DetailContent extends StatelessWidget {
-  final CoffeeList coffee;
+class DetailContent extends StatefulWidget {
+  final Map<String, dynamic> coffee;
   const DetailContent({super.key, required this.coffee});
 
+  @override
+  State<DetailContent> createState() => _DetailContentState();
+}
+
+class _DetailContentState extends State<DetailContent> {
+  bool isFavorited = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Image.asset(
-            '${coffee.image_coffee}',
+          Image.network(
+            '${widget.coffee['img']}',
             // width: double.infinity,
             height: double.infinity,
             fit: BoxFit.cover,
@@ -63,7 +75,7 @@ class DetailContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${coffee.name}',
+                        '${widget.coffee['name']}',
                         style: GoogleFonts.lato(
                             fontWeight: FontWeight.bold,
                             fontSize: 28,
@@ -74,7 +86,7 @@ class DetailContent extends StatelessWidget {
                         height: 3,
                       ),
                       Text(
-                        '${coffee.topping}',
+                        '${widget.coffee['topping']}',
                         style: GoogleFonts.lato(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
@@ -85,29 +97,61 @@ class DetailContent extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(right: 10, left: 5),
-                  alignment: Alignment.center,
-                  height: 35,
-                  width: 63,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.brown),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.white,
-                        size: 17,
+                Row(
+                  children: [
+                    StreamBuilder(
+                      stream: FirebaseFirestore.instance.collection('coffee').where('id',isEqualTo: widget.coffee['id']).snapshots(),
+                  builder: (BuildContext context,AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      for (QueryDocumentSnapshot doc in snapshot.data!.docs) {
+                        String docomentId = doc.id;
+                        bool isFavorited = doc['isFavorited'] ?? false;
+                        return IconButton(
+                          onPressed: () async { 
+                            CoffeeService().updateFirestoreValue(docomentId,!isFavorited);
+                          },
+                          icon: Icon(
+                            Icons.favorite,
+                            size: 32,
+                            color: isFavorited ? Colors.red : Colors.white
+                          ));
+                        
+                      }
+                      return Center(child: Text('not found'),);
+                    }else{
+                     return Icon(Icons.favorite,size: 32,color: Colors.black,);
+                      
+                    }
+                    
+                  },
+                     
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(right: 10, left: 5),
+                      alignment: Alignment.center,
+                      height: 35,
+                      width: 63,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.brown),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.white,
+                            size: 17,
+                          ),
+                          Text(
+                            '${widget.coffee['rating']}',
+                            style: GoogleFonts.lato(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w900),
+                          ),
+                        ],
                       ),
-                      Text(
-                        '${coffee.rating}',
-                        style: GoogleFonts.lato(
-                            color: Colors.white, fontWeight: FontWeight.w900),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 )
               ],
             ),
@@ -131,7 +175,7 @@ class DetailContent extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CoffeeContaine(toping: '${coffee.topping}'),
+                  CoffeeContaine(toping: '${widget.coffee['topping']}'),
                   Container(
                       margin: EdgeInsets.only(top: 25, bottom: 15),
                       // color: Colors.amber,
@@ -163,10 +207,10 @@ class DetailContent extends StatelessWidget {
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),
                   DescCoffee(
-                    desc: '${coffee.desc}',
+                    desc: '${widget.coffee['desc']}',
                   ),
                   ButtonCart(
-                    harga: '${coffee.price}',
+                    harga: '${widget.coffee['price']}',
                   )
                 ],
               ),
@@ -332,17 +376,20 @@ class ButtonCart extends StatelessWidget {
           borderRadius: BorderRadius.circular(35), color: Colors.brown),
       child: Row(
         children: [
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 20),
-            alignment: Alignment.center,
-            height: 75,
-            width: 210,
-            decoration: BoxDecoration(
-                border:
-                    Border(right: BorderSide(width: 1, color: Colors.white))),
-            child: Text(
-              'Add to Cart',
-              style: GoogleFonts.lato(fontSize: 20, color: Colors.white),
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 20),
+              alignment: Alignment.center,
+              height: 75,
+              width: 210,
+              decoration: BoxDecoration(
+                  border:
+                      Border(right: BorderSide(width: 1, color: Colors.white))),
+              child: Text(
+                'Add to Cart',
+                style: GoogleFonts.lato(fontSize: 20, color: Colors.white),
+              ),
             ),
           ),
           Container(

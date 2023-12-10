@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyD-wqMWSVOWmWKWXJir6hrR3CiHJWgz0fw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>481070290258</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.coffeshop.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>api-coffeshop</string>
+	<key>STORAGE_BUCKET</key>
+	<string>api-coffeshop.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:481070290258:ios:fdbaece88b576818a8168b</string>
+	<key>DATABASE_URL</key>
+	<string>https://api-coffeshop-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
